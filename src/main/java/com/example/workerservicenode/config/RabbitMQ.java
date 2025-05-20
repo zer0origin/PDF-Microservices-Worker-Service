@@ -27,7 +27,6 @@ public class RabbitMQ {
         logger.info("PREFETCH_COUNT: " + PREFETCH_COUNT);
         logger.info("CONSUMER_THREAD_COUNT: " + CONSUMER_THREAD_COUNT);
         logger.info("CONSUMER_THREAD_COUNT_MAX: " + CONSUMER_THREAD_COUNT_MAX);
-        logger.info("CONSUMER_THREAD_COUNT_MAX: " + CONSUMER_THREAD_COUNT);
         logger.info("STEP_SIZE_FOR_EXTRACTION: " + STEP_SIZE_FOR_EXTRACTION);
         logger.info("USE_X_FOR_LINES: " + USE_X_FOR_LINES);
     }
