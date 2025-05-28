@@ -24,7 +24,7 @@ public class OnStartExtractionListener {
         DocumentQueueEntity message = event.getEntity();
 
         try {
-            extractWords(message.getPdfBase64Document(), message.getSelectionMap());
+            extractWords(message.getDocument().getPdfBase64Document(), message.getDocument().getSelectionMap());
         } catch (IOException e) {
             e.printStackTrace();
         }

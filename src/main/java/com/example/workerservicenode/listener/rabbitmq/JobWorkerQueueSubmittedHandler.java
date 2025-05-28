@@ -23,7 +23,7 @@ public class JobWorkerQueueSubmittedHandler {
 
     @RabbitHandler
     public SelectionResponseEntity handleRabbitMQMessage(DocumentQueueEntity message) {
-        String str = "Received RabbitMQ message: " + message.getJobUUID() + "Document Size: " + message.getPdfBase64Document().length();
+        String str = "Received RabbitMQ message: " + message.getJobUUID() + "Document Size: " + message.getDocument().getPdfBase64Document().length();
         applicationEventPublisher.publishEvent(new StartExtractionEvent(this, message));
         logger.info(str);
         return new SelectionResponseEntity(message);
