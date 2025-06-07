@@ -11,5 +11,5 @@ COPY ./PDF-Microservices-Worker-Service/target/*.jar app.jar
 EXPOSE 8080
 
 # Run the application with remote debugging enabled
-CMD ["java", "-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5005", "-jar", "app.jar"]
+CMD ["java", "-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:6000", "-jar", "app.jar"]
 
