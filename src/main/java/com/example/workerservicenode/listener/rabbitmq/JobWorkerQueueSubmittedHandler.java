@@ -10,12 +10,12 @@ import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Component;
 
-@RabbitListener(queues = "workerQueue", containerFactory = "prefetchRabbitListenerContainerFactory")
+@RabbitListener(queues = "documentProcessingQueue", containerFactory = "prefetchRabbitListenerContainerFactory")
 @Component
 public class JobWorkerQueueSubmittedHandler {
     private static final Logger logger = LoggerFactory.getLogger(JobWorkerQueueSubmittedHandler.class);
 
-    private ApplicationEventPublisher applicationEventPublisher;
+    private final ApplicationEventPublisher applicationEventPublisher;
 
     public JobWorkerQueueSubmittedHandler(ApplicationEventPublisher applicationEventPublisher) {
         this.applicationEventPublisher = applicationEventPublisher;
