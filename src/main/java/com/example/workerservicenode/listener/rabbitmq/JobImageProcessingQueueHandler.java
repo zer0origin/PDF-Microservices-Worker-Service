@@ -17,7 +17,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.Base64;
 
-@RabbitListener(queues = "imageReplyQueue", containerFactory = "prefetchRabbitListenerContainerFactory")
+@RabbitListener(queues = "imageProcessingQueue", containerFactory = "prefetchRabbitListenerContainerFactory")
 @Component
 public class JobImageProcessingQueueHandler {
     private static final Logger logger = LoggerFactory.getLogger(JobDocumentQueueSubmittedHandler.class);
