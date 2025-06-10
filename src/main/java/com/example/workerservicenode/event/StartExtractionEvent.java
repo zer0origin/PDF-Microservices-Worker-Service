@@ -1,6 +1,6 @@
 package com.example.workerservicenode.event;
 
-import dto.DocumentQueueEntity;
+import dto.extraction.DocumentQueueEntity;
 import org.springframework.context.ApplicationEvent;
 
 public class StartExtractionEvent extends ApplicationEvent {

@@ -4,7 +4,7 @@ import com.example.workerservicenode.event.StartExtractionEvent;
 import com.example.workerservicenode.extraction.PDFPageTextExtractor;
 import com.example.workerservicenode.listener.rabbitmq.JobDocumentQueueSubmittedHandler;
 import com.willcocks.callum.model.data.Selection;
-import dto.DocumentQueueEntity;
+import dto.extraction.DocumentQueueEntity;
 import org.apache.pdfbox.Loader;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.slf4j.Logger;

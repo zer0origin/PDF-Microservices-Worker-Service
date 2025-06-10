@@ -1,7 +1,7 @@
 package com.example.workerservicenode.listener.rabbitmq;
 
-import dto.ImageRequest;
-import dto.response.ImageResponse;
+import com.willcocks.callum.model.ImageRequest;
+import com.willcocks.callum.model.ImageResponse;
 import org.apache.pdfbox.Loader;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.slf4j.Logger;
@@ -28,10 +28,9 @@ public class JobImageProcessingQueueHandler {
         this.applicationEventPublisher = applicationEventPublisher;
     }
 
-    @RabbitHandler
+    @RabbitHandler //TODO: Move this into an event!
     public ImageResponse handle(ImageRequest msg){
-        //TODO: CONVERT IMAGEREQUEST TO IMAGE.
-
+        //TODO: CONVERT IMAGE-REQUEST TO IMAGE.
         byte[] decoded = Base64.getDecoder().decode(msg.getBase64Document());
 
         try (PDDocument document = Loader.loadPDF(decoded)) {

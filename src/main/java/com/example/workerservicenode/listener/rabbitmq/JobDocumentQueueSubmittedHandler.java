@@ -1,8 +1,8 @@
 package com.example.workerservicenode.listener.rabbitmq;
 
 import com.example.workerservicenode.event.StartExtractionEvent;
-import dto.DocumentQueueEntity;
-import dto.response.SelectionResponseEntity;
+import dto.extraction.DocumentQueueEntity;
+import dto.extraction.SelectionResponseEntity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.amqp.rabbit.annotation.RabbitHandler;
