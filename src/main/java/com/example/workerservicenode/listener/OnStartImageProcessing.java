@@ -1,35 +1,31 @@
-package com.example.workerservicenode.listener.rabbitmq;
+package com.example.workerservicenode.listener;
 
+import com.example.workerservicenode.event.ImageProcessingEvent;
 import com.willcocks.callum.model.ImageRequest;
-import com.willcocks.callum.model.ImageResponse;
 import org.apache.pdfbox.Loader;
 import org.apache.pdfbox.pdmodel.PDDocument;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.amqp.rabbit.annotation.RabbitHandler;
-import org.springframework.amqp.rabbit.annotation.RabbitListener;
-import org.springframework.context.ApplicationEventPublisher;
-import org.springframework.stereotype.Component;
 import org.apache.pdfbox.rendering.PDFRenderer;
+import org.springframework.stereotype.Component;
+
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.Base64;
 
-@RabbitListener(queues = "imageProcessingQueue", containerFactory = "prefetchRabbitListenerContainerFactory")
 @Component
-public class JobImageProcessingQueueHandler {
-    private static final Logger logger = LoggerFactory.getLogger(JobDocumentQueueSubmittedHandler.class);
+public class OnStartImageProcessing {
+    public void handle(ImageProcessingEvent e){
+        ImageRequest msg = e.getImageRequest();
 
-    private final ApplicationEventPublisher applicationEventPublisher;
+        if (msg.getCallbackService() == null || msg.getCallbackService().isEmpty()){
+            throw new IllegalStateException("CallbackService string needs to be provided.");
+        }
 
-    public JobImageProcessingQueueHandler(ApplicationEventPublisher applicationEventPublisher) {
-        this.applicationEventPublisher = applicationEventPublisher;
-    }
+        if (msg.getCallbackURL() == null || msg.getCallbackURL().isEmpty()){
+            throw new IllegalStateException("CallbackService string needs to be provided.");
+        }
 
-    @RabbitHandler //TODO: Move this into an event!
-    public ImageResponse handle(ImageRequest msg){
         //TODO: CONVERT IMAGE-REQUEST TO IMAGE.
         byte[] decoded = Base64.getDecoder().decode(msg.getBase64Document());
 
@@ -49,12 +45,9 @@ public class JobImageProcessingQueueHandler {
                 encodedArr[i] = encodedBase64;
             }
 
-            ImageResponse res = new ImageResponse(msg);
-            res.setImageEncodedArr(encodedArr);
-            return res;
-
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+            e.setProcessedImages(encodedArr);
+    } catch (IOException ex) {
+            throw new RuntimeException(ex);
         }
     }
 }

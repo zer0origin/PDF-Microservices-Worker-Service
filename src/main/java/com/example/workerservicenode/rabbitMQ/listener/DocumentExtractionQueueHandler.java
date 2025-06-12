@@ -1,6 +1,6 @@
-package com.example.workerservicenode.listener.rabbitmq;
+package com.example.workerservicenode.rabbitMQ.listener;
 
-import com.example.workerservicenode.event.StartExtractionEvent;
+import com.example.workerservicenode.event.ExtractionEvent;
 import dto.extraction.DocumentQueueEntity;
 import dto.extraction.SelectionResponseEntity;
 import org.slf4j.Logger;
@@ -12,19 +12,19 @@ import org.springframework.stereotype.Component;
 
 @RabbitListener(queues = "documentProcessingQueue", containerFactory = "prefetchRabbitListenerContainerFactory")
 @Component
-public class JobDocumentQueueSubmittedHandler {
-    private static final Logger logger = LoggerFactory.getLogger(JobDocumentQueueSubmittedHandler.class);
+public class DocumentExtractionQueueHandler {
+    private static final Logger logger = LoggerFactory.getLogger(DocumentExtractionQueueHandler.class);
 
     private final ApplicationEventPublisher applicationEventPublisher;
 
-    public JobDocumentQueueSubmittedHandler(ApplicationEventPublisher applicationEventPublisher) {
+    public DocumentExtractionQueueHandler(ApplicationEventPublisher applicationEventPublisher) {
         this.applicationEventPublisher = applicationEventPublisher;
     }
 
     @RabbitHandler
     public SelectionResponseEntity handleRabbitMQMessage(DocumentQueueEntity msg) {
         String str = "Received RabbitMQ message: " + msg.getJobUUID() + "Document Size: " + msg.getDocument().getPdfBase64Document().length();
-        applicationEventPublisher.publishEvent(new StartExtractionEvent(this, msg));
+        applicationEventPublisher.publishEvent(new ExtractionEvent(this, msg));
         logger.info(str);
         return new SelectionResponseEntity(msg);
     }

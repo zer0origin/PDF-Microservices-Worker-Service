@@ -1,8 +1,8 @@
 package com.example.workerservicenode.listener;
 
-import com.example.workerservicenode.event.StartExtractionEvent;
+import com.example.workerservicenode.event.ExtractionEvent;
 import com.example.workerservicenode.extraction.PDFPageTextExtractor;
-import com.example.workerservicenode.listener.rabbitmq.JobDocumentQueueSubmittedHandler;
+import com.example.workerservicenode.rabbitMQ.listener.DocumentExtractionQueueHandler;
 import com.willcocks.callum.model.data.Selection;
 import dto.extraction.DocumentQueueEntity;
 import org.apache.pdfbox.Loader;
@@ -11,16 +11,15 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
-
 import java.io.IOException;
 import java.util.*;
 
 @Component
-public class OnStartExtractionListener {
-    private static final Logger logger = LoggerFactory.getLogger(JobDocumentQueueSubmittedHandler.class);
+public class OnStartExtraction {
+    private static final Logger logger = LoggerFactory.getLogger(DocumentExtractionQueueHandler.class);
 
     @EventListener
-    public void handle(StartExtractionEvent event) {
+    public void handle(ExtractionEvent event) {
         DocumentQueueEntity message = event.getEntity();
 
         try {
