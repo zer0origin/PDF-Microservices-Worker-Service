@@ -30,9 +30,9 @@ public class OnStartExtraction {
     }
 
     private void extractWords(String base64PDF, Map<Integer, List<Selection>> AllSelections) throws IOException {
-        byte[] decoded = Base64.getDecoder().decode(base64PDF);
+        byte[] decodedDocument = Base64.getDecoder().decode(base64PDF);
 
-        try (PDDocument document = Loader.loadPDF(decoded)) {
+        try (PDDocument document = Loader.loadPDF(decodedDocument)) {
             for (Integer page : AllSelections.keySet()) {
                 List<Selection> SelectionsForPage = AllSelections.get(page);
 

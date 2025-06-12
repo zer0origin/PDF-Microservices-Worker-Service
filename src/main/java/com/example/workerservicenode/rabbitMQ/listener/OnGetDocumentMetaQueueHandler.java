@@ -12,6 +12,7 @@ import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
+import java.util.Base64;
 
 @RabbitListener(queues = "documentMetaQueue", containerFactory = "prefetchRabbitListenerContainerFactory")
 @Component
@@ -21,8 +22,8 @@ public class OnGetDocumentMetaQueueHandler {
         float height, width;
         int noOfPages;
 
-        //TODO: Get the meta data from the string.
-        try (PDDocument document = Loader.loadPDF(msg.getBase64Document().getBytes())) {
+        byte[] decodedDocument = Base64.getDecoder().decode(msg.getBase64Document());
+        try (PDDocument document = Loader.loadPDF(decodedDocument)) {
             noOfPages = document.getNumberOfPages();
             PDPage documentPage = document.getPage(0);
 
