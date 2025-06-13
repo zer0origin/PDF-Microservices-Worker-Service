@@ -1,0 +1,50 @@
+<configuration>
+
+    <!-- Console appender for local debug -->
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <!-- Loki appender using JSON format -->
+    <appender name="LOKI" class="com.github.loki4j.logback.Loki4jAppender">
+        <http>
+            <url>http://loki:3100/loki/api/v1/push</url>
+        </http>
+
+        <format>
+            <type>json</type> <!-- Enable JSON output -->
+
+            <label>
+                <pattern>
+                    app = WorkerManagementService,
+                    host = ${HOSTNAME}
+                </pattern>
+                <structuredMetadataPattern>
+                    level = %level,
+                    thread = %thread,
+                    class = %logger,
+                    traceId = %mdc{traceId:-none}
+                </structuredMetadataPattern>
+            </label>
+
+            <message>
+                <pattern>
+                    { "ts": "%date{ISO8601}", "level": "%level", "thread": "%thread", "logger": "%logger", "traceId": "%mdc{traceId:-none}", "msg": "%message", "exception": "%ex" }
+                </pattern>
+            </message>
+        </format>
+    </appender>
+
+    <!-- Root logger logs to console only at WARN level -->
+    <root level="WARN">
+        <appender-ref ref="STDOUT" />
+    </root>
+
+    <!-- Logger for your app logs to Loki at TRACE level -->
+    <logger name="com.willcocks.callum" level="TRACE">
+        <appender-ref ref="LOKI" />
+    </logger>
+
+</configuration>
