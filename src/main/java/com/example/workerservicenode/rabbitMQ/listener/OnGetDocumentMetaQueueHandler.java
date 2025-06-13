@@ -35,6 +35,7 @@ public class OnGetDocumentMetaQueueHandler {
             throw new RuntimeException(e);
         }
 
-        return new DocumentMetaResponse(new Image(height, width, noOfPages), msg);
+        Image image = new Image(height, width, noOfPages);
+        return new DocumentMetaResponse(msg.getDocumentUUID(), image, msg);
     }
 }
