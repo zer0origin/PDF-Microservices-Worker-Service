@@ -1,8 +1,8 @@
 package com.example.workerservicenode.rabbitMQ.listener;
 
-import com.example.workerservicenode.event.ExtractionEvent;
-import network.ExtractionRequest;
-import network.ExtractionResponseEntity;
+import com.example.workerservicenode.spring.event.ExtractionEvent;
+import network.queue.request.ExtractionQueueRequest;
+import network.queue.response.ExtractionQueueResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.amqp.rabbit.annotation.RabbitHandler;
@@ -22,10 +22,10 @@ public class DocumentExtractionQueueHandler {
     }
 
     @RabbitHandler
-    public ExtractionResponseEntity handleRabbitMQMessage(ExtractionRequest msg) {
+    public ExtractionQueueResponse handleRabbitMQMessage(ExtractionQueueRequest msg) {
         String str = "Received RabbitMQ message: " + msg.getJobUUID() + "Document Size: " + msg.getDocument().getPdfBase64Document().length();
         applicationEventPublisher.publishEvent(new ExtractionEvent(this, msg));
         logger.info(str);
-        return new ExtractionResponseEntity(msg);
+        return new ExtractionQueueResponse(msg);
     }
 }

@@ -1,4 +1,4 @@
-package com.example.workerservicenode.event;
+package com.example.workerservicenode.spring.event;
 
 import org.springframework.context.ApplicationEvent;
 

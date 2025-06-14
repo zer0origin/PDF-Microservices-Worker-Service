@@ -1,10 +1,11 @@
 package com.example.workerservicenode.listener;
 
-import com.example.workerservicenode.event.ImageProcessingEvent;
-import com.willcocks.callum.model.ImageRequest;
+import com.example.workerservicenode.spring.event.ProcessImageEvent;
+import network.queue.request.ImageQueueRequest;
 import org.apache.pdfbox.Loader;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.rendering.PDFRenderer;
+import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
 
 import javax.imageio.ImageIO;
@@ -15,19 +16,11 @@ import java.util.Base64;
 
 @Component
 public class OnStartImageProcessing {
-    public void handle(ImageProcessingEvent e){
-        ImageRequest msg = e.getImageRequest();
 
-        if (msg.getCallbackService() == null || msg.getCallbackService().isEmpty()){
-            throw new IllegalStateException("CallbackService string needs to be provided.");
-        }
-
-        if (msg.getCallbackURL() == null || msg.getCallbackURL().isEmpty()){
-            throw new IllegalStateException("CallbackService string needs to be provided.");
-        }
-
-        //TODO: CONVERT IMAGE-REQUEST TO IMAGE.
-        byte[] decoded = Base64.getDecoder().decode(msg.getBase64Document());
+    @EventListener
+    public void handle(ProcessImageEvent e){
+        ImageQueueRequest msg = e.getImageQueueRequest();
+        byte[] decoded = Base64.getDecoder().decode(msg.getPayload().getBase64Document());
 
         try (PDDocument document = Loader.loadPDF(decoded)) {
             int pageNo = document.getNumberOfPages();
@@ -38,6 +31,8 @@ public class OnStartImageProcessing {
                 BufferedImage bufferedImage = pdfRenderer.renderImageWithDPI(i, 300); // 300 DPI
                 ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
                 ImageIO.write(bufferedImage, "png", outputStream);
+
+                //TODO Don't convert to base64! send raw bytes.
                 byte[] imageBytes = outputStream.toByteArray();
 
                 String encodedBase64 = Base64.getEncoder().encodeToString(imageBytes);

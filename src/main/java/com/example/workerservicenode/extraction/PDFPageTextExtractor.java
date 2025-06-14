@@ -1,9 +1,8 @@
 package com.example.workerservicenode.extraction;
 
-import com.example.workerservicenode.WorkerServiceNodeApplication;
 import com.example.workerservicenode.config.RabbitMQ;
-import com.willcocks.callum.model.data.Selection;
-import com.willcocks.callum.model.data.Word;
+import dto.Selection;
+import dto.Word;
 import org.apache.pdfbox.text.PDFTextStripper;
 import org.apache.pdfbox.text.TextPosition;
 
