@@ -43,8 +43,8 @@
     </root>
 
     <!-- Logger for your app logs to Loki at TRACE level -->
-    <logger name="com.willcocks.callum" level="TRACE">
+    <logger name="com.willcocks.callum" level="TRACE" additivity="false">
         <appender-ref ref="LOKI" />
+        <appender-ref ref="STDOUT" />
     </logger>
-
 </configuration>

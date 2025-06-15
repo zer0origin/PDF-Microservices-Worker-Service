@@ -1,10 +1,9 @@
 package com.example.workerservicenode.listener;
-
-import com.example.workerservicenode.event.ExtractionEvent;
+import com.example.workerservicenode.spring.event.ExtractionEvent;
 import com.example.workerservicenode.extraction.PDFPageTextExtractor;
 import com.example.workerservicenode.rabbitMQ.listener.DocumentExtractionQueueHandler;
-import com.willcocks.callum.model.data.Selection;
-import network.ExtractionRequest;
+import dto.Selection;
+import network.queue.request.ExtractionQueueRequest;
 import org.apache.pdfbox.Loader;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.slf4j.Logger;
@@ -20,7 +19,7 @@ public class OnStartExtraction {
 
     @EventListener
     public void handle(ExtractionEvent event) {
-        ExtractionRequest message = event.getEntity();
+        ExtractionQueueRequest message = event.getEntity();
 
         try {
             extractWords(message.getDocument().getPdfBase64Document(), message.getDocument().getSelectionMap());

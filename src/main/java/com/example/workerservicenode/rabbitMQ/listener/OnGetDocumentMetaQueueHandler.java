@@ -1,8 +1,9 @@
 package com.example.workerservicenode.rabbitMQ.listener;
 
-import network.DocumentMetaRequest;
+
+import network.web.request.DocumentMetaWebRequest;
 import dto.Image;
-import network.DocumentMetaResponse;
+import network.queue.response.DocumentMetaQueueResponse;
 import org.apache.pdfbox.Loader;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.PDPage;
@@ -18,7 +19,7 @@ import java.util.Base64;
 @Component
 public class OnGetDocumentMetaQueueHandler {
     @RabbitHandler
-    public DocumentMetaResponse handleRabbitMQMessage(DocumentMetaRequest msg) {
+    public DocumentMetaQueueResponse handleRabbitMQMessage(DocumentMetaWebRequest msg) {
         float height, width;
         int noOfPages;
 
@@ -36,6 +37,6 @@ public class OnGetDocumentMetaQueueHandler {
         }
 
         Image image = new Image(height, width, noOfPages);
-        return new DocumentMetaResponse(msg.getDocumentUUID(), image, msg);
+        return new DocumentMetaQueueResponse(msg.getDocumentUUID(), image, msg);
     }
 }

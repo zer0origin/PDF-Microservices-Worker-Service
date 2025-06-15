@@ -2,6 +2,7 @@ package com.example.workerservicenode.config;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.amqp.core.AcknowledgeMode;
 import org.springframework.amqp.rabbit.config.SimpleRabbitListenerContainerFactory;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
 import org.springframework.amqp.rabbit.listener.RabbitListenerContainerFactory;
@@ -41,6 +42,7 @@ public class RabbitMQ {
     public RabbitListenerContainerFactory<SimpleMessageListenerContainer> prefetchRabbitListenerContainerFactory(ConnectionFactory connectionFactory) {
         SimpleRabbitListenerContainerFactory factory = new SimpleRabbitListenerContainerFactory();
         factory.setConnectionFactory(connectionFactory);
+        factory.setAcknowledgeMode(AcknowledgeMode.AUTO);
         factory.setPrefetchCount(PREFETCH_COUNT); // Set prefetch count here
         factory.setConcurrentConsumers(CONSUMER_THREAD_COUNT); // Allow 5 threads to process messages concurrently
         factory.setMaxConcurrentConsumers(CONSUMER_THREAD_COUNT_MAX); // Scale up dynamically
