@@ -1,5 +1,4 @@
 package com.example.workerservicenode.listener;
-
 import com.example.workerservicenode.spring.event.ExtractionEvent;
 import com.example.workerservicenode.extraction.PDFPageTextExtractor;
 import com.example.workerservicenode.rabbitMQ.listener.DocumentExtractionQueueHandler;
