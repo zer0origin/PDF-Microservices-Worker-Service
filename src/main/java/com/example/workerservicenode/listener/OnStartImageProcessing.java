@@ -1,5 +1,4 @@
 package com.example.workerservicenode.listener;
-
 import com.example.workerservicenode.spring.event.ProcessImageEvent;
 import network.queue.request.ImageQueueRequest;
 import org.apache.pdfbox.Loader;
@@ -27,6 +26,7 @@ public class OnStartImageProcessing {
         byte[] decoded = Base64.getDecoder().decode(msg.getPayload().getBase64Document());
 
         logger.info("Loading document");
+      
         try (PDDocument document = Loader.loadPDF(decoded)) {
             int pageNo = document.getNumberOfPages();
 
