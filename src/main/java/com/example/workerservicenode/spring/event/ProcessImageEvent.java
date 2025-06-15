@@ -3,9 +3,11 @@ package com.example.workerservicenode.spring.event;
 import network.queue.request.ImageQueueRequest;
 import org.springframework.context.ApplicationEvent;
 
+import java.util.List;
+
 public class ProcessImageEvent extends ApplicationEvent {
     private final ImageQueueRequest imageQueueRequest;
-    private String[] processedImages;
+    private List<String> processedImages;
 
     public ProcessImageEvent(Object source, ImageQueueRequest imageQueueRequest) {
         super(source);
@@ -16,11 +18,11 @@ public class ProcessImageEvent extends ApplicationEvent {
         return imageQueueRequest;
     }
 
-    public String[] getProcessedImages() {
+    public List<String> getProcessedImages() {
         return processedImages;
     }
 
-    public void setProcessedImages(String[] processedImages) {
+    public void setProcessedImages(List<String> processedImages) {
         this.processedImages = processedImages;
     }
 }

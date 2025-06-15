@@ -12,20 +12,23 @@ import org.springframework.stereotype.Component;
 
 @RabbitListener(queues = "imageProcessingQueue", containerFactory = "prefetchRabbitListenerContainerFactory")
 @Component
-public class JobImageProcessingQueueHandler {
+public class ImageProcessingQueueHandler {
     private static final Logger logger = LoggerFactory.getLogger(DocumentExtractionQueueHandler.class);
 
     private final ApplicationEventPublisher applicationEventPublisher;
 
-    public JobImageProcessingQueueHandler(ApplicationEventPublisher applicationEventPublisher) {
+    public ImageProcessingQueueHandler(ApplicationEventPublisher applicationEventPublisher) {
         this.applicationEventPublisher = applicationEventPublisher;
     }
 
     @RabbitHandler
     public ImageQueueResponse handle(ImageQueueRequest msg) {
+        System.out.println("Received request.");
+        logger.trace("Received imageProcessingQueue request");
         ProcessImageEvent e = new ProcessImageEvent(this, msg);
         applicationEventPublisher.publishEvent(e); //Fire the image processing event.
 
+        logger.trace("Finished executing imageProcessingQueue, sending response");
         //Create the response object to sent back to the client.
         ImageQueueResponse res = new ImageQueueResponse(msg);
         res.setImageEncodedArr(e.getProcessedImages());
