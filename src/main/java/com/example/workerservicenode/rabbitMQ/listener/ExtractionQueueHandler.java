@@ -12,18 +12,18 @@ import org.springframework.stereotype.Component;
 
 @RabbitListener(queues = "documentProcessingQueue", containerFactory = "prefetchRabbitListenerContainerFactory")
 @Component
-public class DocumentExtractionQueueHandler {
-    private static final Logger logger = LoggerFactory.getLogger(DocumentExtractionQueueHandler.class);
+public class ExtractionQueueHandler {
+    private static final Logger logger = LoggerFactory.getLogger(ExtractionQueueHandler.class);
 
     private final ApplicationEventPublisher applicationEventPublisher;
 
-    public DocumentExtractionQueueHandler(ApplicationEventPublisher applicationEventPublisher) {
+    public ExtractionQueueHandler(ApplicationEventPublisher applicationEventPublisher) {
         this.applicationEventPublisher = applicationEventPublisher;
     }
 
     @RabbitHandler
     public ExtractionQueueResponse handleRabbitMQMessage(ExtractionQueueRequest msg) {
-        String str = "Received RabbitMQ message: " + msg.getJobUUID() + "Document Size: " + msg.getDocument().getPdfBase64Document().length();
+        String str = "Received RabbitMQ message: " + msg.getJobUUID() + "Document Size: " + msg.getDocument().getBase64().length();
         applicationEventPublisher.publishEvent(new ExtractionEvent(this, msg));
         logger.info(str);
         return new ExtractionQueueResponse(msg);

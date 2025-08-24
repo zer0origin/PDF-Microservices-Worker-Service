@@ -2,7 +2,7 @@ package com.example.workerservicenode.listener;
 
 import com.example.workerservicenode.spring.event.ExtractionEvent;
 import com.example.workerservicenode.extraction.PDFPageTextExtractor;
-import com.example.workerservicenode.rabbitMQ.listener.DocumentExtractionQueueHandler;
+import com.example.workerservicenode.rabbitMQ.listener.ExtractionQueueHandler;
 import dto.Selection;
 import network.queue.request.ExtractionQueueRequest;
 import org.apache.pdfbox.Loader;
@@ -16,14 +16,14 @@ import java.util.*;
 
 @Component
 public class OnStartExtraction {
-    private static final Logger logger = LoggerFactory.getLogger(DocumentExtractionQueueHandler.class);
+    private static final Logger logger = LoggerFactory.getLogger(ExtractionQueueHandler.class);
 
     @EventListener
     public void handle(ExtractionEvent event) {
         ExtractionQueueRequest message = event.getEntity();
 
         try {
-            extractWords(message.getDocument().getPdfBase64Document(), message.getDocument().getSelectionMap());
+            extractWords(message.getDocument().getBase64(), message.getDocument().getSelectionMap());
         } catch (IOException e) {
             e.printStackTrace();
         }

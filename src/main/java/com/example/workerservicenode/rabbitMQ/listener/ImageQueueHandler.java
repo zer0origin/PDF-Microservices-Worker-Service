@@ -12,12 +12,12 @@ import org.springframework.stereotype.Component;
 
 @RabbitListener(queues = "imageProcessingQueue", containerFactory = "prefetchRabbitListenerContainerFactory")
 @Component
-public class ImageProcessingQueueHandler {
-    private static final Logger logger = LoggerFactory.getLogger(DocumentExtractionQueueHandler.class);
+public class ImageQueueHandler {
+    private static final Logger logger = LoggerFactory.getLogger(ExtractionQueueHandler.class);
 
     private final ApplicationEventPublisher applicationEventPublisher;
 
-    public ImageProcessingQueueHandler(ApplicationEventPublisher applicationEventPublisher) {
+    public ImageQueueHandler(ApplicationEventPublisher applicationEventPublisher) {
         this.applicationEventPublisher = applicationEventPublisher;
     }
 

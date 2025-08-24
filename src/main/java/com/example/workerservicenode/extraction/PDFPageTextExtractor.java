@@ -1,5 +1,6 @@
 package com.example.workerservicenode.extraction;
 
+import com.example.workerservicenode.config.EnvConfig;
 import com.example.workerservicenode.config.RabbitMQ;
 import dto.Selection;
 import dto.Word;
@@ -46,7 +47,7 @@ public class PDFPageTextExtractor extends PDFTextStripper {
             if (withinX && withinY) {
                 int stepSize;
                 if (s.getStepSize() <= 0){ //Disabled
-                    stepSize = RabbitMQ.STEP_SIZE_FOR_EXTRACTION;
+                    stepSize = EnvConfig.STEP_SIZE_FOR_EXTRACTION;
                 }else{
                     stepSize = s.getStepSize();
                 }
@@ -60,7 +61,7 @@ public class PDFPageTextExtractor extends PDFTextStripper {
                     continue;
                 }
 
-                if(RabbitMQ.USE_X_FOR_LINES == 1){
+                if(EnvConfig.USE_X_FOR_LINES == 1){
                     s.addWord(word, (int) word.getX(), stepSize);
                 }else{
                     s.addWord(word, (int) word.getY(), stepSize);

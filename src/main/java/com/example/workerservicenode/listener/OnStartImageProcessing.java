@@ -22,9 +22,9 @@ import java.util.List;
 public class OnStartImageProcessing {
     private Logger logger = LoggerFactory.getLogger(OnStartImageProcessing.class);
     @EventListener
-    public void handle(ProcessImageEvent e){ //TODO: render specific pages, NOT ALL OF THEM!
+    public void handle(ProcessImageEvent e){
         ImageQueueRequest msg = e.getImageQueueRequest();
-        byte[] decoded = Base64.getDecoder().decode(msg.getPayload().getBase64Document());
+        byte[] decoded = Base64.getDecoder().decode(msg.getPayload().getDocumentBase64());
 
         logger.info("Loading document");
         try (PDDocument document = Loader.loadPDF(decoded)) {
